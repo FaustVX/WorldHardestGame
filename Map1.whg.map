@@ -1,0 +1,36 @@
+<Map>
+	<Header>
+		<Name>Map 1</Name>
+		<Size width='20' height='8'/>
+	</Header>
+	<Blocks>
+		<Start id='start' x='1' y='1' width='3' height='6'/>
+		<Finish x='16' y='1' width='3' height='6'/>
+		<Floor id='main' x='5' y='2' width='10' height='4'/>
+		<Floor x='4' y='6' width='2' height='1'/>
+		<Floor x='14' y='1' width='2' height='1'/>
+	</Blocks>
+	<Entities>
+		<Player relativeTo='start' x='1.5' y='3'/>
+		<Ball relativeTo='main' x='9' y='0'>
+			<IA>
+				<BouncingY from='9' to='0'/>
+			</IA>
+		</Ball>
+		<Ball relativeTo='main' x='0' y='1'>
+			<IA>
+				<BouncingY from='0' to='9'/>
+			</IA>
+		</Ball>
+		<Ball relativeTo='main' x='9' y='2'>
+			<IA>
+				<BouncingY from='9' to='0'/>
+			</IA>
+		</Ball>
+		<Ball relativeTo='main' x='0' y='3'>
+			<IA>
+				<BouncingY from='0' to='9'/>
+			</IA>
+		</Ball>
+	</Entities>
+</Map>
