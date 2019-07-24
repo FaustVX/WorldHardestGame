@@ -8,6 +8,7 @@ using System.Xml.Schema;
 using System.Xml.Serialization;
 using WorldHardestGame.Core.Blocks;
 using WorldHardestGame.Core.Entities;
+using WorldHardestGame.Core.IA;
 
 namespace WorldHardestGame.Core
 {
@@ -204,15 +205,46 @@ namespace WorldHardestGame.Core
 
                         void ReadBall(XmlReader reader)
                         {
-                            AddEntity(p => new Ball(p));
+                            while (reader.Read())
+                                if (reader.NodeType is XmlNodeType.Element && reader.Name is "IA")
+                                    break;
+
+                            using var subTtree = reader.ReadSubtree();
+                            AddIA(subTtree, (p, ia) => new Ball(p, ia));
                         }
 
-                        void AddEntity(Func<Position, BaseEntity> func)
+                        BaseEntity AddEntity(Func<Position, BaseEntity> func)
                         {
                             if (relativeTo is { })
                                 (x, y) = (x + blocks[relativeTo].x, y + blocks[relativeTo].y);
 
-                            Entities.Add(func(new Position(x, y)));
+                            var entity = func(new Position(x, y));
+                            Entities.Add(entity);
+                            return entity;
+                        }
+
+                        void AddIA(XmlReader reader, Func<Position, IA.BaseIA, BaseEntity> func)
+                        {
+                            while (reader.Read())
+                                if (reader.NodeType is XmlNodeType.Element)
+                                {
+                                    while (reader.Read())
+                                        if (reader.NodeType is XmlNodeType.Element)
+                                            break;
+                                    break;
+                                }
+
+                            switch (reader.Name)
+                            {
+                                case nameof(BouncingY) when reader.GetFloatAttribute("from", out var start)
+                                && reader.GetFloatAttribute("to", out var end)
+                                && reader.GetFloatAttribute("duration", out var duration):
+                                    if (relativeTo is { })
+                                        (start, end) = (start + blocks[relativeTo].x, end + blocks[relativeTo].x);
+                                    var entity = (BaseEntityIA)AddEntity(p => func(p, new BouncingY(start, end, duration, null!)));
+                                    entity.IA.ModifyReadOnlyProperty(ia => ia.Entity, entity);
+                                    break;
+                            }
                         }
                     }
                 }

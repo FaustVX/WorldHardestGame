@@ -12,5 +12,10 @@ namespace WorldHardestGame.Core.Entities
         }
 
         public Position Position { get; set; }
+
+        public void Execute(TimeSpan time)
+            => ExecuteImpl(time);
+
+        protected abstract void ExecuteImpl(TimeSpan time);
     }
 }

@@ -4,12 +4,15 @@ using System.Text;
 
 namespace WorldHardestGame.Core.Entities
 {
-    public class Ball : BaseEntity
+    public class Ball : BaseEntityIA
     {
-        public Ball(Position position)
-            : base(position)
+        public Ball(Position position, IA.BaseIA ia)
+            : base(position, ia)
         {
 
         }
+
+        protected override void ExecuteImpl(TimeSpan time)
+            => IA.Execute(time);
     }
 }

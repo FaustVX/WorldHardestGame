@@ -73,6 +73,24 @@ namespace WorldHardestGame.Test
             Assert.AreEqual(float.Parse("4"), Map0.Entities.OfType<Core.Entities.Player>().Single().Position.Y);
         }
 
+        [TestMethod]
+        public void TestSampleEntities()
+        {
+            Assert.AreEqual(4, Map0.Entities.OfType<Core.Entities.Ball>().Count());
+            var ball = Map0.Entities.OfType<Core.Entities.Ball>().First();
+            Assert.IsInstanceOfType(ball.IA, typeof(Core.IA.BouncingY));
+            var ia = (ball.IA as Core.IA.BouncingY);
+            Assert.AreEqual(2, ia.Duration);
+            ia.Execute(System.TimeSpan.FromSeconds(0));
+            Assert.AreEqual(ia.Start, ball.Position.X);
+            ia.Execute(System.TimeSpan.FromSeconds(ia.Duration * .25));
+            Assert.AreEqual(ia.Start+ia.Length/2, ball.Position.X);
+            ia.Execute(System.TimeSpan.FromSeconds(ia.Duration * .5));
+            Assert.AreEqual(ia.End, ball.Position.X);
+            ia.Execute(System.TimeSpan.FromSeconds(ia.Duration * .75));
+            Assert.AreEqual(ia.End-ia.Length/2, ball.Position.X);
+        }
+
         private static void DrawMap(Map map)
         {
             Debug.WriteLine(map.Name);

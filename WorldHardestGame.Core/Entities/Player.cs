@@ -11,5 +11,8 @@ namespace WorldHardestGame.Core.Entities
         {
 
         }
+
+        protected override void ExecuteImpl(TimeSpan time)
+        { }
     }
 }
