@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace WorldHardestGame.Core.Entities
 {
@@ -12,9 +10,10 @@ namespace WorldHardestGame.Core.Entities
 
         }
 
-        protected override void ExecuteImpl(TimeSpan time)
-            => IA.Execute(time);
-        protected override bool HasContactWith(TimeSpan time, Player player)
+        protected override void UpdateImpl(TimeSpan deltaTime)
+            => IA.Update(deltaTime);
+
+        protected override bool HasContactWith(Player player)
         {
             return true;
         }

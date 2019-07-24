@@ -12,9 +12,28 @@ namespace WorldHardestGame.Core.Entities
 
         }
 
+        public override Position Position
+        {
+            get => base.Position;
+            set
+            {
+                var (top, left, bottom, right) = Get4Corners(GetCorners(value));
+
+                if (Map[left, top] is Blocks.Wall || Map[left, bottom] is Blocks.Wall || Map[right, top] is Blocks.Wall || Map[right, bottom] is Blocks.Wall)
+                    return;
+                base.Position = value;
+
+                (Position tl, Position br) GetCorners(Position position)
+                    => (position + BoundingBox.TopLeft, position + BoundingBox.BottomRight);
+
+                static (int top, int left, int bottom, int right) Get4Corners(in (Position tl, Position br) corners)
+                    => ((int)corners.tl.Y, (int)corners.tl.X, (int)corners.br.Y, (int)corners.br.X);
+            }
+        }
+
         public BaseEntity? HasBennKilledBy { get; private set; }
 
-        protected override void ExecuteImpl(TimeSpan time)
+        protected override void UpdateImpl(TimeSpan deltaTime)
         {
             var me = Get4Corners(GetCorners(this));
 
@@ -24,12 +43,13 @@ namespace WorldHardestGame.Core.Entities
                     continue;
 
                 var other = Get4Corners(GetCorners(entity));
-                if (other.left>me.right || other.right<me.left || other.top > me.bottom || other.bottom < me.top)
-                    continue;
+                if (!(other.left > me.right || other.right < me.left || other.top > me.bottom || other.bottom < me.top))
+                    if (HasContactBetween(this, entity))
+                        HasBennKilledBy = entity;
             }
 
-            if (HasContactBetween(time, this, entity))
-                HasBennKilledBy = entity;
+            if (Map[Position] is Blocks.Finish)
+                Map.Finished = true;
 
             static (Position tl, Position br) GetCorners(BaseEntity entity)
                 => (entity.Position + entity.BoundingBox.TopLeft, entity.Position + entity.BoundingBox.BottomRight);
@@ -38,7 +58,7 @@ namespace WorldHardestGame.Core.Entities
                 => (corners.tl.Y, corners.tl.X, corners.br.Y, corners.br.X);
         }
 
-        protected override bool HasContactWith(TimeSpan time, Player player)
+        protected override bool HasContactWith(Player player)
             => throw new NotImplementedException();
     }
 }

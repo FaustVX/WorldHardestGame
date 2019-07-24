@@ -1,0 +1,74 @@
+<Map>
+	<Header>
+		<Name>Map 2</Name>
+		<Size width='20' height='8'/>
+	</Header>
+	<Blocks>
+		<Start id='start' x='1' y='3' width='3' height='2'/>
+		<Floor id='main' relativeTo='prev' x='3' y='-2' width='12' height='6'/>
+		<Finish relativeTo='start' x='15' y='0' width='3' height='2'/>
+	</Blocks>
+	<Entities>
+		<Player relativeTo='start' x='1.5' y='1'/>
+		<Ball relativeTo='main' x='0.5' y='0.5'>
+			<IA>
+				<BouncingX from='0.5' to='5.5' duration='2'/>
+			</IA>
+		</Ball>
+		<Ball relativeTo='main' x='1.5' y='5.5'>
+			<IA>
+				<BouncingX from='5.5' to='0.5' duration='2'/>
+			</IA>
+		</Ball>
+		<Ball relativeTo='main' x='2.5' y='0.5'>
+			<IA>
+				<BouncingX from='0.5' to='5.5' duration='2'/>
+			</IA>
+		</Ball>
+		<Ball relativeTo='main' x='3.5' y='5.5'>
+			<IA>
+				<BouncingX from='5.5' to='0.5' duration='2'/>
+			</IA>
+		</Ball>
+		<Ball relativeTo='main' x='4.5' y='0.5'>
+			<IA>
+				<BouncingX from='0.5' to='5.5' duration='2'/>
+			</IA>
+		</Ball>
+		<Ball relativeTo='main' x='5.5' y='5.5'>
+			<IA>
+				<BouncingX from='5.5' to='0.5' duration='2'/>
+			</IA>
+		</Ball>
+		<Ball relativeTo='main' x='6.5' y='0.5'>
+			<IA>
+				<BouncingX from='0.5' to='5.5' duration='2'/>
+			</IA>
+		</Ball>
+		<Ball relativeTo='main' x='7.5' y='5.5'>
+			<IA>
+				<BouncingX from='5.5' to='0.5' duration='2'/>
+			</IA>
+		</Ball>
+		<Ball relativeTo='main' x='8.5' y='0.5'>
+			<IA>
+				<BouncingX from='0.5' to='5.5' duration='2'/>
+			</IA>
+		</Ball>
+		<Ball relativeTo='main' x='9.5' y='5.5'>
+			<IA>
+				<BouncingX from='5.5' to='0.5' duration='2'/>
+			</IA>
+		</Ball>
+		<Ball relativeTo='main' x='10.5' y='0.5'>
+			<IA>
+				<BouncingX from='0.5' to='5.5' duration='2'/>
+			</IA>
+		</Ball>
+		<Ball relativeTo='main' x='11.5' y='5.5'>
+			<IA>
+				<BouncingX from='5.5' to='0.5' duration='2'/>
+			</IA>
+		</Ball>
+	</Entities>
+</Map>

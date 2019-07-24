@@ -20,15 +20,20 @@ namespace WorldHardestGame.Core
             Size = default;
             Entities = new List<BaseEntity>();
             Blocks = new BaseBlock[0, 0];
+            Finished = false;
         }
 
         public string Name { get; }
         public Size Size { get; }
         public List<BaseEntity> Entities { get; }
         public BaseBlock[,] Blocks { get; }
+        public bool Finished { get; set; }
 
         public BaseBlock this[Index x, Index y]
             => Blocks[x.GetOffset(Size.Width), y.GetOffset(Size.Height)];
+
+        public BaseBlock this[Position position]
+            => Blocks[(int)position.X, (int)position.Y];
 
         public static Map Parse(StreamReader fileStream)
         {
@@ -200,7 +205,7 @@ namespace WorldHardestGame.Core
 
                         void ReadPlayer(XmlReader reader)
                         {
-                            AddEntity(p => new Player(p, new Rectangle(new Position(-.5f, -.5f), new Position(.5f, .5f)), this));
+                            AddEntity(p => new Player(p, new Rectangle(new Position(-.25f, -.25f), new Position(.25f, .25f)), this));
                         }
 
                         void ReadBall(XmlReader reader)
@@ -210,7 +215,7 @@ namespace WorldHardestGame.Core
                                     break;
 
                             using var subTtree = reader.ReadSubtree();
-                            AddIA(subTtree, (p, ia) => new Ball(p, ia, new Rectangle(new Position(-.5f, -.5f), new Position(.5f, .5f)), this));
+                            AddIA(subTtree, (p, ia) => new Ball(p, ia, new Rectangle(new Position(-.25f, -.25f), new Position(.25f, .25f)), this));
                         }
 
                         BaseEntity AddEntity(Func<Position, BaseEntity> func)
@@ -236,14 +241,26 @@ namespace WorldHardestGame.Core
 
                             switch (reader.Name)
                             {
+                                case nameof(BouncingX) when reader.GetFloatAttribute("from", out var start)
+                                && reader.GetFloatAttribute("to", out var end)
+                                && reader.GetFloatAttribute("duration", out var duration):
+                                    {
+                                        if (relativeTo is { })
+                                            (start, end) = (start + blocks[relativeTo].y, end + blocks[relativeTo].y);
+                                        var entity = (BaseEntityIA)AddEntity(p => func(p, new BouncingX(start, end, duration, null!)));
+                                        entity.IA.ModifyReadOnlyProperty(ia => ia.Entity, entity);
+                                        break;
+                                    }
                                 case nameof(BouncingY) when reader.GetFloatAttribute("from", out var start)
                                 && reader.GetFloatAttribute("to", out var end)
                                 && reader.GetFloatAttribute("duration", out var duration):
-                                    if (relativeTo is { })
-                                        (start, end) = (start + blocks[relativeTo].x, end + blocks[relativeTo].x);
-                                    var entity = (BaseEntityIA)AddEntity(p => func(p, new BouncingY(start, end, duration, null!)));
-                                    entity.IA.ModifyReadOnlyProperty(ia => ia.Entity, entity);
-                                    break;
+                                    {
+                                        if (relativeTo is { })
+                                            (start, end) = (start + blocks[relativeTo].x, end + blocks[relativeTo].x);
+                                        var entity = (BaseEntityIA)AddEntity(p => func(p, new BouncingY(start, end, duration, null!)));
+                                        entity.IA.ModifyReadOnlyProperty(ia => ia.Entity, entity);
+                                        break;
+                                    }
                             }
                         }
                     }

@@ -12,24 +12,24 @@
 	</Blocks>
 	<Entities>
 		<Player relativeTo='start' x='1.5' y='3'/>
-		<Ball relativeTo='main' x='9' y='0'>
+		<Ball relativeTo='main' x='9.5' y='0.5'>
 			<IA>
-				<BouncingY from='9' to='0' duration='2'/>
+				<BouncingY from='9.5' to='0.5' duration='2'/>
 			</IA>
 		</Ball>
-		<Ball relativeTo='main' x='0' y='1'>
+		<Ball relativeTo='main' x='0.5' y='1.5'>
 			<IA>
-				<BouncingY from='0' to='9' duration='2'/>
+				<BouncingY from='0.5' to='9.5' duration='2'/>
 			</IA>
 		</Ball>
-		<Ball relativeTo='main' x='9' y='2'>
+		<Ball relativeTo='main' x='9.5' y='2.5'>
 			<IA>
-				<BouncingY from='9' to='0' duration='2'/>
+				<BouncingY from='9.5' to='0.5' duration='2'/>
 			</IA>
 		</Ball>
-		<Ball relativeTo='main' x='0' y='3'>
+		<Ball relativeTo='main' x='0.5' y='3.5'>
 			<IA>
-				<BouncingY from='0' to='9' duration='2'/>
+				<BouncingY from='0.5' to='9.5' duration='2'/>
 			</IA>
 		</Ball>
 	</Entities>

@@ -11,7 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldHardestGame.Test", "Wo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ED1B2134-73E3-4B67-9B24-EE31CB429A00}"
 	ProjectSection(SolutionItems) = preProject
-		Map1.whg.map = Map1.whg.map
+		Maps\Map1.whg.map = Maps\Map1.whg.map
+		Maps\Map2.whg.map = Maps\Map2.whg.map
 	EndProjectSection
 EndProject
 Global

@@ -5,14 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WorldHardestGame.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Height="450" Width="800"
+        Grid.IsSharedSizeScope="True">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition SharedSizeGroup="Col" Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition SharedSizeGroup="Col" Width="Auto"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="9*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition SharedSizeGroup="Row" Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition SharedSizeGroup="Row" Height="Auto"/>
         </Grid.RowDefinitions>
-        <Label Content="Hello .NET Core!" HorizontalAlignment="Center" VerticalAlignment="Center"
-               FontSize="40"/>
-        <Button Content="Exit" Grid.Row="1" FontSize="20" Click="ButtonExit_Click"/>
+
+        <Canvas Grid.Column="1" Grid.Row="1" x:Name="CanvasBackground" Background="Transparent"/>
+        <Canvas Grid.Column="1" Grid.Row="1" x:Name="CanvasForeground" Background="Transparent"/>
+        <!--<Viewbox Stretch="Uniform" StretchDirection="Both" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Canvas x:Name="Canvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        </Viewbox>-->
+
+        <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <TextBlock x:Name="TxtInfo" Background="#80808080"/>
+        </Grid>
     </Grid>
 </Window>

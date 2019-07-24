@@ -80,22 +80,41 @@ namespace WorldHardestGame.Test
             var ball = Map0.Entities.OfType<Core.Entities.Ball>().First();
             Assert.IsInstanceOfType(ball.IA, typeof(Core.IA.BouncingY));
             var ia = (ball.IA as Core.IA.BouncingY);
-            Assert.AreEqual(2, ia.Duration);
+            Assert.AreEqual(2, ia.TotalDuration);
 
-            ia.Execute(System.TimeSpan.FromSeconds(0));
             Assert.AreEqual(ia.Start, ball.Position.X);
 
-            ia.Execute(System.TimeSpan.FromSeconds(ia.Duration * .25));
+            ia.Update(System.TimeSpan.FromSeconds(0));
+            Assert.AreEqual(ia.Start, ball.Position.X);
+
+            ia.Update(System.TimeSpan.FromSeconds(ia.TotalDuration * .25));
             Assert.AreEqual(ia.Start+ia.Length/2, ball.Position.X);
             DrawMap(Map0);
 
-            ia.Execute(System.TimeSpan.FromSeconds(ia.Duration * .5));
+            ia.Update(System.TimeSpan.FromSeconds(ia.TotalDuration * .25));
             Assert.AreEqual(ia.End, ball.Position.X);
             DrawMap(Map0);
 
-            ia.Execute(System.TimeSpan.FromSeconds(ia.Duration * .75));
+            ia.Update(System.TimeSpan.FromSeconds(ia.TotalDuration * .25));
             Assert.AreEqual(ia.End-ia.Length/2, ball.Position.X);
             DrawMap(Map0);
+        }
+
+        [TestMethod]
+        public void UpdateLoop()
+        {
+            var offset = System.TimeSpan.FromMilliseconds(200);
+            var entity = Map0.Entities.OfType<Core.Entities.Ball>().First();
+            Debug.WriteLine($"{0:0000}: {entity.Position.X}; {entity.Position.Y}");
+
+            for (var timer = System.TimeSpan.FromSeconds(0); timer.TotalSeconds < 2; timer += offset)
+            {
+                //foreach (var entity in Map0.Entities)
+                {
+                    entity.Update(timer);
+                    Debug.WriteLine($"{timer.TotalMilliseconds:0000}: {entity.Position.X}; {entity.Position.Y}");
+                }
+            }
         }
 
         [TestMethod]
@@ -106,7 +125,7 @@ namespace WorldHardestGame.Test
             for(var timer = System.TimeSpan.FromSeconds(0); timer.TotalSeconds < 2; timer += offset)
             {
                 foreach (var entity in Map0.Entities)
-                    entity.Execute(timer);
+                    entity.Update(timer);
 
                 Debug.WriteLine(timer);
                 DrawMap(Map0);

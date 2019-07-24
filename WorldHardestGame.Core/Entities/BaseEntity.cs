@@ -13,18 +13,18 @@ namespace WorldHardestGame.Core.Entities
             Position = position;
         }
 
-        public Position Position { get; set; }
+        public virtual Position Position { get; set; }
         public Rectangle BoundingBox { get; }
         public Map Map { get; }
 
-        public void Execute(TimeSpan time)
-            => ExecuteImpl(time);
+        public void Update(TimeSpan deltaTime)
+            => UpdateImpl(deltaTime);
 
-        protected abstract void ExecuteImpl(TimeSpan time);
+        protected abstract void UpdateImpl(TimeSpan deltaTime);
 
-        protected abstract bool HasContactWith(TimeSpan time, Player player);
+        protected abstract bool HasContactWith(Player player);
 
-        protected static bool HasContactBetween(TimeSpan time, Player player, BaseEntity entity)
-            => entity.HasContactWith(time, player);
+        protected static bool HasContactBetween(Player player, BaseEntity entity)
+            => entity.HasContactWith(player);
     }
 }
