@@ -28,5 +28,8 @@ namespace WorldHardestGame.Core
             bool GetFloatAttribute(string name, out float value)
                 => reader.GetFloatAttribute(name, out value);
         }
+
+        public static Position operator +(in Position left, in Position right)
+            => new Position(left.X + right.X, left.Y + right.Y);
     }
 }

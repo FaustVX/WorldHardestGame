@@ -200,7 +200,7 @@ namespace WorldHardestGame.Core
 
                         void ReadPlayer(XmlReader reader)
                         {
-                            AddEntity(p => new Player(p));
+                            AddEntity(p => new Player(p, new Rectangle(new Position(-.5f, -.5f), new Position(.5f, .5f)), this));
                         }
 
                         void ReadBall(XmlReader reader)
@@ -210,7 +210,7 @@ namespace WorldHardestGame.Core
                                     break;
 
                             using var subTtree = reader.ReadSubtree();
-                            AddIA(subTtree, (p, ia) => new Ball(p, ia));
+                            AddIA(subTtree, (p, ia) => new Ball(p, ia, new Rectangle(new Position(-.5f, -.5f), new Position(.5f, .5f)), this));
                         }
 
                         BaseEntity AddEntity(Func<Position, BaseEntity> func)

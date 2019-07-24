@@ -81,14 +81,39 @@ namespace WorldHardestGame.Test
             Assert.IsInstanceOfType(ball.IA, typeof(Core.IA.BouncingY));
             var ia = (ball.IA as Core.IA.BouncingY);
             Assert.AreEqual(2, ia.Duration);
+
             ia.Execute(System.TimeSpan.FromSeconds(0));
             Assert.AreEqual(ia.Start, ball.Position.X);
+
             ia.Execute(System.TimeSpan.FromSeconds(ia.Duration * .25));
             Assert.AreEqual(ia.Start+ia.Length/2, ball.Position.X);
+            DrawMap(Map0);
+
             ia.Execute(System.TimeSpan.FromSeconds(ia.Duration * .5));
             Assert.AreEqual(ia.End, ball.Position.X);
+            DrawMap(Map0);
+
             ia.Execute(System.TimeSpan.FromSeconds(ia.Duration * .75));
             Assert.AreEqual(ia.End-ia.Length/2, ball.Position.X);
+            DrawMap(Map0);
+        }
+
+        [TestMethod]
+        public void DrawLoop()
+        {
+            var offset = System.TimeSpan.FromMilliseconds(200);
+
+            for(var timer = System.TimeSpan.FromSeconds(0); timer.TotalSeconds < 2; timer += offset)
+            {
+                foreach (var entity in Map0.Entities)
+                    entity.Execute(timer);
+
+                Debug.WriteLine(timer);
+                DrawMap(Map0);
+
+                if (Map0.Entities.OfType<Core.Entities.Player>().All(p => p.HasBennKilledBy is { }))
+                    break;
+            }
         }
 
         private static void DrawMap(Map map)
