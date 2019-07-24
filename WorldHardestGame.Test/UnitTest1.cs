@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WorldHardestGame.Core;
 using System.IO;
 using System.Diagnostics;
+using System.Linq;
 
 namespace WorldHardestGame.Test
 {
@@ -65,6 +66,13 @@ namespace WorldHardestGame.Test
             }
         }
 
+        [TestMethod]
+        public void PlayerPosition()
+        {
+            Assert.AreEqual(float.Parse("2.5"), Map0.Entities.OfType<Core.Entities.Player>().Single().Position.X);
+            Assert.AreEqual(float.Parse("4"), Map0.Entities.OfType<Core.Entities.Player>().Single().Position.Y);
+        }
+
         private static void DrawMap(Map map)
         {
             Debug.WriteLine(map.Name);
@@ -73,6 +81,24 @@ namespace WorldHardestGame.Test
             {
                 for (var x = 0; x < map.Size.Width; x++)
                 {
+                    var writen = true;
+
+                    switch (map.Entities.FirstOrDefault(e => (int)e.Position.X == x && (int)e.Position.Y == y))
+                    {
+                        case Core.Entities.Player _:
+                            Debug.Write('@');
+                            break;
+                        case Core.Entities.Ball _:
+                            Debug.Write('O');
+                            break;
+                        default:
+                            writen = false;
+                            break;
+                    }
+
+                    if (writen)
+                        continue;
+
                     switch (map[x, y])
                     {
                         case Core.Blocks.Wall _:

@@ -6,9 +6,11 @@ namespace WorldHardestGame.Core.Entities
 {
     public abstract class BaseEntity
     {
-        protected BaseEntity()
+        protected BaseEntity(Position position)
         {
-
+            Position = position;
         }
+
+        public Position Position { get; set; }
     }
 }

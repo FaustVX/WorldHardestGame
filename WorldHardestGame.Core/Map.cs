@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,6 +7,7 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using WorldHardestGame.Core.Blocks;
+using WorldHardestGame.Core.Entities;
 
 namespace WorldHardestGame.Core
 {
@@ -16,11 +17,13 @@ namespace WorldHardestGame.Core
         {
             Name = "";
             Size = default;
+            Entities = new List<BaseEntity>();
             Blocks = new BaseBlock[0, 0];
         }
 
         public string Name { get; }
         public Size Size { get; }
+        public List<BaseEntity> Entities { get; }
         public BaseBlock[,] Blocks { get; }
 
         public BaseBlock this[Index x, Index y]
@@ -169,6 +172,50 @@ namespace WorldHardestGame.Core
 
             void ReadEntities(XmlReader reader)
             {
+                if (reader.NodeType is XmlNodeType.None)
+                    reader.Read();
+
+                while (reader.Read())
+                {
+                    if (reader.NodeType is XmlNodeType.Element)
+                    {
+                        if (!reader.GetFloatAttribute("x", out var x))
+                            throw new Exception("'x' attribute must be defined");
+                        if (!reader.GetFloatAttribute("y", out var y))
+                            throw new Exception("'y' attribute must be defined");
+
+                        if (reader.GetStringAttribute("relativeTo", out var relativeTo) && !blocks.ContainsKey(relativeTo!))
+                            throw new Exception($"Block id: '{relativeTo}' must be set before usage");
+
+                        switch (reader.Name)
+                        {
+                            case nameof(Player):
+                                reader.ReadSubTree(ReadPlayer);
+                                break;
+                            case nameof(Ball):
+                                reader.ReadSubTree(ReadBall);
+                                break;
+                        }
+
+                        void ReadPlayer(XmlReader reader)
+                        {
+                            AddEntity(p => new Player(p));
+                        }
+
+                        void ReadBall(XmlReader reader)
+                        {
+                            AddEntity(p => new Ball(p));
+                        }
+
+                        void AddEntity(Func<Position, BaseEntity> func)
+                        {
+                            if (relativeTo is { })
+                                (x, y) = (x + blocks[relativeTo].x, y + blocks[relativeTo].y);
+
+                            Entities.Add(func(new Position(x, y)));
+                        }
+                    }
+                }
             }
         }
     }
