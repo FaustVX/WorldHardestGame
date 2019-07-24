@@ -31,17 +31,20 @@ namespace WorldHardestGame.Core
             if (expression.Body is MemberExpression prop)
                 if (prop.Member is PropertyInfo propInfo)
                     if ((propInfo.CanRead && !propInfo.CanWrite))
-                        if (propInfo.GetMethod!.GetCustomAttribute(typeof(CompilerGeneratedAttribute)) is object)
+                        if (propInfo.GetMethod!.GetCustomAttribute(typeof(CompilerGeneratedAttribute)) is { })
                         {
                             var backingField = t.GetType().GetField($@"<{propInfo.Name}>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance);
                             backingField!.SetValue(t, value);
                         }
         }
 
-        public static bool GetIntAttribute(this XmlReader reader, string name, /*[NotNullWhen(true)]*/ out int value)
+        public static bool GetBoolAttribute(this XmlReader reader, string name, out bool value)
+            => bool.TryParse(reader.GetAttribute(name), out value);
+
+        public static bool GetIntAttribute(this XmlReader reader, string name, out int value)
             => int.TryParse(reader.GetAttribute(name), out value);
 
-        public static bool GetStringAttribute(this XmlReader reader, string name, out string value)
+        public static bool GetStringAttribute(this XmlReader reader, string name, /*[NotNullWhen(true)]*/ out string? value)
             => !string.IsNullOrWhiteSpace(value = reader.GetAttribute(name));
 
         public static bool GetFloatAttribute(this XmlReader reader, string name, out float value)
