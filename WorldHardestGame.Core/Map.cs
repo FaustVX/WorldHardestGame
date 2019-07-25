@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -215,7 +215,7 @@ namespace WorldHardestGame.Core
                                     break;
 
                             using var subTtree = reader.ReadSubtree();
-                            AddIA(subTtree, (p, ia) => new Ball(p, ia, new Rectangle(new Position(-.25f, -.25f), new Position(.25f, .25f)), this));
+                            AddIA(subTtree, p => new Ball(p, null!, new Rectangle(new Position(-.25f, -.25f), new Position(.25f, .25f)), this));
                         }
 
                         BaseEntity AddEntity(Func<Position, BaseEntity> func)
@@ -228,7 +228,7 @@ namespace WorldHardestGame.Core
                             return entity;
                         }
 
-                        void AddIA(XmlReader reader, Func<Position, IA.BaseIA, BaseEntity> func)
+                        void AddIA(XmlReader reader, Func<Position, BaseEntity> func)
                         {
                             while (reader.Read())
                                 if (reader.NodeType is XmlNodeType.Element)
@@ -247,8 +247,8 @@ namespace WorldHardestGame.Core
                                     {
                                         if (relativeTo is { })
                                             (start, end) = (start + blocks[relativeTo].y, end + blocks[relativeTo].y);
-                                        var entity = (BaseEntityIA)AddEntity(p => func(p, new BouncingX(start, end, duration, null!)));
-                                        entity.IA.ModifyReadOnlyProperty(ia => ia.Entity, entity);
+                                        var entity = (BaseEntityIA)AddEntity(func);
+                                        entity.ModifyReadOnlyProperty(e => e.IA, new BouncingX(start, end, duration, entity));
                                         break;
                                     }
                                 case nameof(BouncingY) when reader.GetFloatAttribute("from", out var start)
@@ -257,8 +257,8 @@ namespace WorldHardestGame.Core
                                     {
                                         if (relativeTo is { })
                                             (start, end) = (start + blocks[relativeTo].x, end + blocks[relativeTo].x);
-                                        var entity = (BaseEntityIA)AddEntity(p => func(p, new BouncingY(start, end, duration, null!)));
-                                        entity.IA.ModifyReadOnlyProperty(ia => ia.Entity, entity);
+                                        var entity = (BaseEntityIA)AddEntity(func);
+                                        entity.ModifyReadOnlyProperty(e => e.IA, new BouncingY(start, end, duration, entity));
                                         break;
                                     }
                             }
