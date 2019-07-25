@@ -3,7 +3,7 @@ using WorldHardestGame.Core.Entities;
 
 namespace WorldHardestGame.Core.IA
 {
-    public class BouncingY : BaseIA
+    public class BouncingY : BaseMovingIA
     {
         public BouncingY(float start, float end, float duration, BaseEntityIA entity)
             : base(entity, duration)

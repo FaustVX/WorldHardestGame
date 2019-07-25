@@ -5,25 +5,16 @@ namespace WorldHardestGame.Core.IA
 {
     public abstract class BaseIA
     {
-        public BaseIA(BaseEntityIA entity, float duration)
+        public BaseIA(BaseEntityIA entity)
         {
             Entity = entity;
-            TotalDuration = duration;
         }
 
         public BaseEntityIA Entity { get; }
-        public float TotalDuration { get; }
-        
-        private float currentDuration;
-        protected float CurrentDuration
-        {
-            get => currentDuration;
-            private set => currentDuration = value % TotalDuration;
-        }
 
         public void Update(TimeSpan deltaTime)
-            => UpdateImpl((CurrentDuration += (float)deltaTime.TotalSeconds) / TotalDuration);
+            => UpdateImpl(deltaTime);
 
-        protected abstract void UpdateImpl(float timePos);
+        protected abstract void UpdateImpl(TimeSpan deltaTime);
     }
 }
