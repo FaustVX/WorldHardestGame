@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,6 +21,7 @@ namespace WorldHardestGame.Core
             Entities = new List<BaseEntity>();
             Blocks = new BaseBlock[0, 0];
             Finished = false;
+            NonKilledEntities = Entities.Where(entity => !entity.IsKilled);
         }
 
         public string Name { get; }
@@ -28,6 +29,8 @@ namespace WorldHardestGame.Core
         public List<BaseEntity> Entities { get; }
         public BaseBlock[,] Blocks { get; }
         public bool Finished { get; set; }
+        public bool FinishedUnlocked { get; set; } = true;
+        public IEnumerable<BaseEntity> NonKilledEntities { get; }
 
         public BaseBlock this[Index x, Index y]
             => Blocks[x.GetOffset(Size.Width), y.GetOffset(Size.Height)];
@@ -201,6 +204,9 @@ namespace WorldHardestGame.Core
                             case nameof(Ball):
                                 reader.ReadSubTree(ReadBall);
                                 break;
+                            case nameof(Coin):
+                                reader.ReadSubTree(ReadCoin);
+                                break;
                         }
 
                         void ReadPlayer(XmlReader reader)
@@ -216,6 +222,16 @@ namespace WorldHardestGame.Core
 
                             using var subTtree = reader.ReadSubtree();
                             AddIA(subTtree, p => new Ball(p, null!, new Rectangle(new Position(-.25f, -.25f), new Position(.25f, .25f)), this));
+                        }
+
+                        void ReadCoin(XmlReader reader)
+                        {
+                            while (reader.Read())
+                                if (reader.NodeType is XmlNodeType.Element && reader.Name is "IA")
+                                    break;
+
+                            using var subTtree = reader.ReadSubtree();
+                            AddIA(subTtree, p => new Coin(p, null!, new Rectangle(new Position(-.25f, -.25f), new Position(.25f, .25f)), this));
                         }
 
                         BaseEntity AddEntity(Func<Position, BaseEntity> func)
@@ -259,6 +275,12 @@ namespace WorldHardestGame.Core
                                             (start, end) = (start + blocks[relativeTo].x, end + blocks[relativeTo].x);
                                         var entity = (BaseEntityIA)AddEntity(func);
                                         entity.ModifyReadOnlyProperty(e => e.IA, new BouncingY(start, end, duration, entity));
+                                        break;
+                                    }
+                                case nameof(Collecting):
+                                    {
+                                        var entity = (BaseEntityIA)AddEntity(func);
+                                        entity.ModifyReadOnlyProperty(e => e.IA, new Collecting(entity));
                                         break;
                                     }
                             }

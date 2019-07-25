@@ -22,5 +22,8 @@ namespace WorldHardestGame.Core.IA
 
         protected override void UpdateImpl(float timePosition)
             => ModifyYPosition(-MathF.Cos(timePosition * MathF.PI * 2) + 1);
+
+        protected override void ContactWithImpl(Player player)
+        { }
     }
 }

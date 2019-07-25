@@ -37,18 +37,18 @@ namespace WorldHardestGame.Core.Entities
         {
             var me = Get4Corners(GetCorners(this));
 
-            foreach (var entity in Map.Entities)
+            foreach (var entity in Map.NonKilledEntities)
             {
                 if (entity is Player)
                     continue;
 
                 var other = Get4Corners(GetCorners(entity));
                 if (!(other.left > me.right || other.right < me.left || other.top > me.bottom || other.bottom < me.top))
-                    if (HasContactBetween(this, entity))
+                    if (HasContactBetween(this, entity) && !entity.IsKilled)
                         HasBennKilledBy = entity;
             }
 
-            if (Map[Position] is Blocks.Finish)
+            if (Map.FinishedUnlocked && Map[Position] is Blocks.Finish)
                 Map.Finished = true;
 
             static (Position tl, Position br) GetCorners(BaseEntity entity)
