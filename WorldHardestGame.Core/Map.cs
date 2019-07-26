@@ -199,39 +199,31 @@ namespace WorldHardestGame.Core
                         switch (reader.Name)
                         {
                             case nameof(Player):
-                                reader.ReadSubTree(ReadPlayer);
+                                ReadNode(reader, p => new Player(p, new Rectangle(new Position(-.25f, -.25f), new Position(.25f, .25f)), this));
                                 break;
                             case nameof(Ball):
-                                reader.ReadSubTree(ReadBall);
+                                ReadNode(reader, p => new Ball(p, null!, new Rectangle(new Position(-.25f, -.25f), new Position(.25f, .25f)), this));
                                 break;
                             case nameof(Coin):
-                                reader.ReadSubTree(ReadCoin);
+                                ReadNode(reader, p => new Coin(p, null!, new Rectangle(new Position(-.25f, -.25f), new Position(.25f, .25f)), this));
                                 break;
                         }
 
-                        void ReadPlayer(XmlReader reader)
+                        void ReadNode(XmlReader reader, Func<Position, BaseEntity> func)
                         {
-                            AddEntity(p => new Player(p, new Rectangle(new Position(-.25f, -.25f), new Position(.25f, .25f)), this));
-                        }
+                            var node = FirstChild(reader.ReadSubtree());
+                            if (node.FirstChild is XmlElement { Name: "IA", FirstChild: XmlElement child })
+                                AddIA(child, func);
+                            else
+                                AddEntity(func);
 
-                        void ReadBall(XmlReader reader)
-                        {
-                            while (reader.Read())
-                                if (reader.NodeType is XmlNodeType.Element && reader.Name is "IA")
-                                    break;
-
-                            using var subTtree = reader.ReadSubtree();
-                            AddIA(subTtree, p => new Ball(p, null!, new Rectangle(new Position(-.25f, -.25f), new Position(.25f, .25f)), this));
-                        }
-
-                        void ReadCoin(XmlReader reader)
-                        {
-                            while (reader.Read())
-                                if (reader.NodeType is XmlNodeType.Element && reader.Name is "IA")
-                                    break;
-
-                            using var subTtree = reader.ReadSubtree();
-                            AddIA(subTtree, p => new Coin(p, null!, new Rectangle(new Position(-.25f, -.25f), new Position(.25f, .25f)), this));
+                            static XmlElement FirstChild(XmlReader tree)
+                            {
+                                var xml = new XmlDocument();
+                                xml.Load(tree);
+                                tree.Close();
+                                return (XmlElement)xml.FirstChild;
+                            }
                         }
 
                         BaseEntity AddEntity(Func<Position, BaseEntity> func)
@@ -244,46 +236,37 @@ namespace WorldHardestGame.Core
                             return entity;
                         }
 
-                        void AddIA(XmlReader reader, Func<Position, BaseEntity> func)
+                        void AddIA(XmlElement element, Func<Position, BaseEntity> func)
                         {
-                            while (reader.Read())
-                                if (reader.NodeType is XmlNodeType.Element)
+                            if(AddEntity(func) is BaseEntityIA entity)
+                                switch (element.Name)
                                 {
-                                    while (reader.Read())
-                                        if (reader.NodeType is XmlNodeType.Element)
+                                    case nameof(BouncingX) when element.GetFloatAttribute("from", out var start)
+                                    && element.GetFloatAttribute("to", out var end)
+                                    && element.GetFloatAttribute("duration", out var duration):
+                                        {
+                                            if (relativeTo is { })
+                                                (start, end) = (start + blocks[relativeTo].y, end + blocks[relativeTo].y);
+                                            entity.ModifyReadOnlyProperty(e => e.IA, new BouncingX(start, end, duration, entity));
                                             break;
-                                    break;
+                                        }
+                                    case nameof(BouncingY) when element.GetFloatAttribute("from", out var start)
+                                    && element.GetFloatAttribute("to", out var end)
+                                    && element.GetFloatAttribute("duration", out var duration):
+                                        {
+                                            if (relativeTo is { })
+                                                (start, end) = (start + blocks[relativeTo].x, end + blocks[relativeTo].x);
+                                            entity.ModifyReadOnlyProperty(e => e.IA, new BouncingY(start, end, duration, entity));
+                                            break;
+                                        }
+                                    case nameof(Collecting):
+                                        {
+                                            entity.ModifyReadOnlyProperty(e => e.IA, new Collecting(entity));
+                                            break;
+                                        }
+                                    default:
+                                        throw new Exception();
                                 }
-
-                            switch (reader.Name)
-                            {
-                                case nameof(BouncingX) when reader.GetFloatAttribute("from", out var start)
-                                && reader.GetFloatAttribute("to", out var end)
-                                && reader.GetFloatAttribute("duration", out var duration):
-                                    {
-                                        if (relativeTo is { })
-                                            (start, end) = (start + blocks[relativeTo].y, end + blocks[relativeTo].y);
-                                        var entity = (BaseEntityIA)AddEntity(func);
-                                        entity.ModifyReadOnlyProperty(e => e.IA, new BouncingX(start, end, duration, entity));
-                                        break;
-                                    }
-                                case nameof(BouncingY) when reader.GetFloatAttribute("from", out var start)
-                                && reader.GetFloatAttribute("to", out var end)
-                                && reader.GetFloatAttribute("duration", out var duration):
-                                    {
-                                        if (relativeTo is { })
-                                            (start, end) = (start + blocks[relativeTo].x, end + blocks[relativeTo].x);
-                                        var entity = (BaseEntityIA)AddEntity(func);
-                                        entity.ModifyReadOnlyProperty(e => e.IA, new BouncingY(start, end, duration, entity));
-                                        break;
-                                    }
-                                case nameof(Collecting):
-                                    {
-                                        var entity = (BaseEntityIA)AddEntity(func);
-                                        entity.ModifyReadOnlyProperty(e => e.IA, new Collecting(entity));
-                                        break;
-                                    }
-                            }
                         }
                     }
                 }

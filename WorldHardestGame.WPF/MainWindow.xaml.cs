@@ -73,19 +73,16 @@ namespace WorldHardestGame.WPF
 
         private void ResetMap()
         {
-            lock (this)
-                using (var fileStream = _levelFiles[_currentLevel].OpenText())
-                {
-                    Map = Map.Parse(fileStream);
-                    Title = Map.Name;
+            using (var fileStream = _levelFiles[_currentLevel].OpenText())
+                Map = Map.Parse(fileStream);
 
-                    Player = Map.Entities.OfType<Player>().First();
-                    _timer.Restart();
-                    _deltaTime = _lastTime = TimeSpan.Zero;
-                    CanvasBackground.Children.Clear();
-                    CanvasBackground.Children.Capacity = Map.Size.Width * Map.Size.Height;
-                    DrawBackground();
-                }
+            Title = Map.Name;
+            Player = Map.Entities.OfType<Player>().First();
+            _timer.Restart();
+            _deltaTime = _lastTime = TimeSpan.Zero;
+            CanvasBackground.Children.Clear();
+            CanvasBackground.Children.Capacity = Map.Size.Width * Map.Size.Height;
+            DrawBackground();
         }
 
         private void NextLevel()
@@ -106,12 +103,9 @@ namespace WorldHardestGame.WPF
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            lock (this)
-            {
-                UpdateFPS();
-                UpdateForeground();
-                DrawForeground();
-            }
+            UpdateFPS();
+            UpdateForeground();
+            DrawForeground();
         }
 
         private void DrawBackground()

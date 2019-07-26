@@ -78,5 +78,17 @@ namespace WorldHardestGame.Core
 
         public static bool GetFloatAttribute(this XmlReader reader, string name, out float value)
             => float.TryParse(reader.GetAttribute(name), out value);
+
+        public static bool GetBoolAttribute(this XmlElement element, string name, out bool value)
+            => bool.TryParse(element.GetAttribute(name), out value);
+
+        public static bool GetIntAttribute(this XmlElement element, string name, out int value)
+            => int.TryParse(element.GetAttribute(name), out value);
+
+        public static bool GetStringAttribute(this XmlElement element, string name, /*[NotNullWhen(true)]*/ out string? value)
+            => !string.IsNullOrWhiteSpace(value = element.GetAttribute(name));
+
+        public static bool GetFloatAttribute(this XmlElement element, string name, out float value)
+            => float.TryParse(element.GetAttribute(name), out value);
     }
 }
