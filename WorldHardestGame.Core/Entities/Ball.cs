@@ -10,6 +10,9 @@ namespace WorldHardestGame.Core.Entities
 
         }
 
+        public override bool IsEnnemy
+            => true;
+
         protected override void UpdateImpl(TimeSpan deltaTime)
             => IA.Update(deltaTime);
 

@@ -31,6 +31,9 @@ namespace WorldHardestGame.Core.Entities
             }
         }
 
+        public override bool IsEnnemy
+            => false;
+
         public BaseEntity? HasBennKilledBy { get; private set; }
 
         protected override void UpdateImpl(TimeSpan deltaTime)
@@ -44,7 +47,7 @@ namespace WorldHardestGame.Core.Entities
 
                 var other = Get4Corners(GetCorners(entity));
                 if (!(other.left > me.right || other.right < me.left || other.top > me.bottom || other.bottom < me.top))
-                    if (HasContactBetween(this, entity) && !entity.IsKilled)
+                    if (HasContactBetween(this, entity) && !entity.IsKilled && entity.IsEnnemy)
                         HasBennKilledBy = entity;
             }
 

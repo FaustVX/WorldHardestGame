@@ -15,6 +15,7 @@ namespace WorldHardestGame.Core.Entities
         public Rectangle BoundingBox { get; }
         public Map Map { get; }
         public bool IsKilled { get; set; }
+        public abstract bool IsEnnemy { get; }
 
         public void Update(TimeSpan deltaTime)
             => UpdateImpl(deltaTime);
