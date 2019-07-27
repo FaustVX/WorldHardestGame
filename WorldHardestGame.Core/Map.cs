@@ -6,7 +6,6 @@ using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using WorldHardestGame.Core.Blocks;
 using WorldHardestGame.Core.Entities;
 using WorldHardestGame.Core.IA;
 
@@ -19,7 +18,7 @@ namespace WorldHardestGame.Core
             Name = "";
             Size = default;
             Entities = new List<BaseEntity>();
-            Blocks = new BaseBlock[0, 0];
+            Blocks = new BlockType[0, 0];
             Finished = false;
             NonKilledEntities = Entities.Where(entity => !entity.IsKilled);
         }
@@ -27,15 +26,15 @@ namespace WorldHardestGame.Core
         public string Name { get; }
         public Size Size { get; }
         public List<BaseEntity> Entities { get; }
-        public BaseBlock[,] Blocks { get; }
+        public BlockType[,] Blocks { get; }
         public bool Finished { get; set; }
         public bool FinishedUnlocked { get; set; } = true;
         public IEnumerable<BaseEntity> NonKilledEntities { get; }
 
-        public BaseBlock this[Index x, Index y]
+        public BlockType this[Index x, Index y]
             => Blocks[x.GetOffset(Size.Width), y.GetOffset(Size.Height)];
 
-        public BaseBlock this[Position position]
+        public BlockType this[Position position]
             => Blocks[(int)position.X, (int)position.Y];
 
         public static Map Parse(StreamReader fileStream)
@@ -87,11 +86,7 @@ namespace WorldHardestGame.Core
                         {
                             var size = reader.Deserialize<Size>();
                             Helper.ModifyReadOnlyProperty(() => Size, size);
-                            Helper.ModifyReadOnlyProperty(() => Blocks, new BaseBlock[Size.Width, Size.Height]);
-
-                            foreach (var x in Enumerable.Range(0, Size.Width))
-                                foreach (var y in Enumerable.Range(0, Size.Height))
-                                    Blocks[x, y] = Wall.Instance;
+                            Helper.ModifyReadOnlyProperty(() => Blocks, new BlockType[Size.Width, Size.Height]);
 
                             if (setName)
                                 break;
@@ -136,21 +131,21 @@ namespace WorldHardestGame.Core
 
                         switch (reader.Name)
                         {
-                            case nameof(Start):
-                                SetBlocks(new Start(), x, y);
+                            case nameof(BlockType.Start):
+                                SetBlocks(BlockType.Start, x, y);
                                 break;
-                            case nameof(Finish):
-                                SetBlocks(new Finish(), x, y);
+                            case nameof(BlockType.Finish):
+                                SetBlocks(BlockType.Finish, x, y);
                                 break;
-                            case nameof(Floor):
-                                SetBlocks(new Floor(), x, y);
+                            case nameof(BlockType.Floor):
+                                SetBlocks(BlockType.Floor, x, y);
                                 break;
-                            case nameof(Wall):
-                                SetBlocks(new Wall(), x, y);
+                            case nameof(BlockType.Wall):
+                                SetBlocks(BlockType.Wall, x, y);
                                 break;
                         }
 
-                        void SetBlocks(BaseBlock block, int x, int y)
+                        void SetBlocks(BlockType block, int x, int y)
                         {
                             if (prev || relativeTo is { })
                             {

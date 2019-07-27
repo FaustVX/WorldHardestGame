@@ -127,9 +127,9 @@ namespace WorldHardestGame.WPF
                         Height = _blockSize,
                         Fill = new SolidColorBrush(Map.Blocks[x, y] switch
                         {
-                            Core.Blocks.Floor _ => ((x + y) % 2 == 0) ? Colors.DimGray : Colors.Gray,
-                            Core.Blocks.Start _ => Colors.PaleGreen,
-                            Core.Blocks.Finish _ => Map.FinishedUnlocked ? Colors.PaleTurquoise : Colors.IndianRed,
+                            BlockType.Floor => ((x + y) % 2 == 0) ? Colors.DimGray : Colors.Gray,
+                            BlockType.Start => Colors.PaleGreen,
+                            BlockType.Finish => Map.FinishedUnlocked ? Colors.PaleTurquoise : Colors.IndianRed,
                             _ => Colors.Wheat,
                         })
                     };

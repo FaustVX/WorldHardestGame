@@ -31,9 +31,9 @@ namespace WorldHardestGame.Test
         [TestMethod]
         public void TestSampleBlock()
         {
-            Assert.IsInstanceOfType(Map0[1, 1], typeof(Core.Blocks.Start));
-            Assert.IsInstanceOfType(Map0[Map0.Size.Width / 2, Map0.Size.Height / 2], typeof(Core.Blocks.Floor));
-            Assert.IsInstanceOfType(Map0[^2, ^2], typeof(Core.Blocks.Finish));
+            Assert.AreEqual(Map0[1, 1], BlockType.Start);
+            Assert.AreEqual(Map0[Map0.Size.Width / 2, Map0.Size.Height / 2], BlockType.Floor);
+            Assert.AreEqual(Map0[^2, ^2], BlockType.Finish);
         }
 
         [TestMethod]
@@ -56,13 +56,13 @@ namespace WorldHardestGame.Test
         {
             for (var x = 0; x < Map0.Size.Width; x++)
             {
-                Assert.IsInstanceOfType(Map0[x, 0], typeof(Core.Blocks.Wall));
-                Assert.IsInstanceOfType(Map0[x, ^1], typeof(Core.Blocks.Wall));
+                Assert.AreEqual(Map0[x, 0], BlockType.Wall);
+                Assert.AreEqual(Map0[x, ^1], BlockType.Wall);
             }
             for (var y = 0; y < Map0.Size.Height; y++)
             {
-                Assert.IsInstanceOfType(Map0[0, y], typeof(Core.Blocks.Wall));
-                Assert.IsInstanceOfType(Map0[^1, y], typeof(Core.Blocks.Wall));
+                Assert.AreEqual(Map0[0, y], BlockType.Wall);
+                Assert.AreEqual(Map0[^1, y], BlockType.Wall);
             }
         }
 
@@ -163,16 +163,16 @@ namespace WorldHardestGame.Test
 
                     switch (map[x, y])
                     {
-                        case Core.Blocks.Wall _:
+                        case BlockType.Wall :
                             Debug.Write('#');
                             break;
-                        case Core.Blocks.Floor _:
+                        case BlockType.Floor :
                             Debug.Write('.');
                             break;
-                        case Core.Blocks.Start _:
+                        case BlockType.Start :
                             Debug.Write('s');
                             break;
-                        case Core.Blocks.Finish _:
+                        case BlockType.Finish :
                             Debug.Write('f');
                             break;
                     }

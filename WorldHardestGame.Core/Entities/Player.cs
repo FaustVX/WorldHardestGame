@@ -19,7 +19,7 @@ namespace WorldHardestGame.Core.Entities
             {
                 var (top, left, bottom, right) = Get4Corners(GetCorners(value));
 
-                if (Map[left, top] is Blocks.Wall || Map[left, bottom] is Blocks.Wall || Map[right, top] is Blocks.Wall || Map[right, bottom] is Blocks.Wall)
+                if (Map[left, top] is BlockType.Wall || Map[left, bottom] is BlockType.Wall || Map[right, top] is BlockType.Wall || Map[right, bottom] is BlockType.Wall)
                     return;
                 base.Position = value;
 
@@ -51,7 +51,7 @@ namespace WorldHardestGame.Core.Entities
                         HasBennKilledBy = entity;
             }
 
-            if (Map.FinishedUnlocked && Map[Position] is Blocks.Finish)
+            if (Map.FinishedUnlocked && Map[Position] is BlockType.Finish)
                 Map.Finished = true;
 
             static (Position tl, Position br) GetCorners(BaseEntity entity)
