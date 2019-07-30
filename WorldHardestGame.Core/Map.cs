@@ -206,19 +206,11 @@ namespace WorldHardestGame.Core
 
                         void ReadNode(XmlReader reader, Func<Position, BaseEntity> func)
                         {
-                            var node = FirstChild(reader.ReadSubtree());
+                            var node = reader.FirstChild();
                             if (node.FirstChild is XmlElement { Name: "IA", FirstChild: XmlElement child })
                                 AddIA(child, func);
                             else
                                 AddEntity(func);
-
-                            static XmlElement FirstChild(XmlReader tree)
-                            {
-                                var xml = new XmlDocument();
-                                xml.Load(tree);
-                                tree.Close();
-                                return (XmlElement)xml.FirstChild;
-                            }
                         }
 
                         BaseEntity AddEntity(Func<Position, BaseEntity> func)
@@ -269,6 +261,15 @@ namespace WorldHardestGame.Core
                                                 where x.Item1 && y.Item1
                                                 select new Position(x.val, y.val);
                                             entity.ModifyReadOnlyProperty(e => e.IA, new IA.Path(entity, duration, distance, pos));
+                                            break;
+                                        }
+                                    case nameof(Circle) when element.GetFloatAttribute("x", out var x)
+                                    && element.GetFloatAttribute("y", out var y)
+                                    && element.GetFloatAttribute("duration", out var duration):
+                                        {
+                                            if (relativeTo is { })
+                                                (x, y) = (x + blocks[relativeTo].x, y + blocks[relativeTo].y);
+                                            entity.ModifyReadOnlyProperty(e => e.IA, new Circle(entity, duration, new Position(x, y)));
                                             break;
                                         }
                                     default:

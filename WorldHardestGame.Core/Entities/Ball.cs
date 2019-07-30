@@ -14,7 +14,7 @@ namespace WorldHardestGame.Core.Entities
             => true;
 
         protected override void UpdateImpl(TimeSpan deltaTime)
-            => IA.Update(deltaTime);
+            => IA?.Update(deltaTime);
 
         protected override bool HasContactWith(Player player)
         {

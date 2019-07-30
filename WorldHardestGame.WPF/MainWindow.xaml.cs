@@ -192,7 +192,14 @@ namespace WorldHardestGame.WPF
 
             foreach (var entity in Map.NonKilledEntities)
             {
-                var element = entity switch
+                var element = GetShape(entity);
+                if (element is null)
+                    continue;
+                AttachElement(element, entity);
+            }
+
+            static FrameworkElement? GetShape(BaseEntity entity)
+                => entity switch
                 {
                     Player p => (FrameworkElement)new Shapes.Rectangle()
                     {
@@ -215,6 +222,8 @@ namespace WorldHardestGame.WPF
                     _ => throw new Exception(),
                 };
 
+            void AttachElement(FrameworkElement element, BaseEntity entity)
+            {
                 element.Width *= _blockSize;
                 element.Height *= _blockSize;
                 CanvasForeground.Children.Add(element);

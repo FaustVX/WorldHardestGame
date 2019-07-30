@@ -23,6 +23,14 @@ namespace WorldHardestGame.Core
             return func(subTree);
         }
 
+        public static XmlElement FirstChild(this XmlReader @this)
+        {
+            using var tree = @this.ReadSubtree();
+            var xml = new XmlDocument();
+            xml.Load(tree);
+            return (XmlElement)xml.FirstChild;
+        }
+
         public static T Deserialize<T>(this XmlReader reader)
             => (T)reader.ReadSubTree(new System.Xml.Serialization.XmlSerializer(typeof(T)).Deserialize);
 

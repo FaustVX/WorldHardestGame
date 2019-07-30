@@ -1,0 +1,102 @@
+<Map>
+	<Header>
+		<Name>Map 4</Name>
+		<Size width='13' height='13'/>
+	</Header>
+	<Blocks>
+        <Wall id='main' x='4' y='4' size='8'/>
+		<Floor relativeTo='main' x='2' y='0' width='4' height='8'/>
+		<Floor relativeTo='main' x='1' y='1' size='6'/>
+		<Floor relativeTo='main' x='0' y='2' width='8' height='4'/>
+        <Start id='start' relativeTo='main' x='3' y='-3' width='2' height='3'/>
+		<Finish relativeTo='main' x='-3' y='3' width='3' height='2'/>
+	</Blocks>
+	<Entities>
+		<Player relativeTo='start' x='1' y='1.5'/>
+        <Coin relativeTo='main' x='4' y='1'/>
+        <Coin relativeTo='main' x='7' y='4'/>
+        <Coin relativeTo='main' x='4' y='7'/>
+        <Ball relativeTo='main' x='4' y='8'>
+            <IA>
+                <Circle duration='2.5' x='4' y='4' angle='-90'/>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='4' y='7'>
+            <IA>
+                <Circle duration='2.5' x='4' y='4' angle='-90'/>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='4' y='6'>
+            <IA>
+                <Circle duration='2.5' x='4' y='4' angle='-90'/>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='4' y='5'>
+            <IA>
+                <Circle duration='2.5' x='4' y='4' angle='-90'/>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='4' y='4'/>
+        <Ball relativeTo='main' x='4' y='3'>
+            <IA>
+                <Circle duration='2.5' x='4' y='4' angle='-90'/>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='4' y='2'>
+            <IA>
+                <Circle duration='2.5' x='4' y='4' angle='-90'/>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='4' y='1'>
+            <IA>
+                <Circle duration='2.5' x='4' y='4' angle='-90'/>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='4' y='0'>
+            <IA>
+                <Circle duration='2.5' x='4' y='4' angle='-90'/>
+            </IA>
+        </Ball>
+
+        <Ball relativeTo='main' x='8' y='4'>
+            <IA>
+                <Circle duration='2.5' x='4' y='4' angle='-90'/>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='7' y='4'>
+            <IA>
+                <Circle duration='2.5' x='4' y='4' angle='-90'/>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='6' y='4'>
+            <IA>
+                <Circle duration='2.5' x='4' y='4' angle='-90'/>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='5' y='4'>
+            <IA>
+                <Circle duration='2.5' x='4' y='4' angle='-90'/>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='3' y='4'>
+            <IA>
+                <Circle duration='2.5' x='4' y='4' angle='-90'/>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='2' y='4'>
+            <IA>
+                <Circle duration='2.5' x='4' y='4' angle='-90'/>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='1' y='4'>
+            <IA>
+                <Circle duration='2.5' x='4' y='4' angle='-90'/>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='0' y='4'>
+            <IA>
+                <Circle duration='2.5' x='4' y='4' angle='-90'/>
+            </IA>
+        </Ball>
+	</Entities>
+</Map>

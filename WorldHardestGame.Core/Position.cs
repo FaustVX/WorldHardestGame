@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace WorldHardestGame.Core
 {
-    public readonly struct Position : IXmlReaderSerializable
+    public readonly struct Position : IXmlReaderSerializable, IEquatable<Position>
     {
         public Position(float x, float y)
         {
@@ -36,7 +36,25 @@ namespace WorldHardestGame.Core
         public float DistanceWithSquared(Position position)
             => (position.X - X) * (position.X - X) + (position.Y - Y) * (position.Y - Y);
 
+        public override int GetHashCode()
+            => HashCode.Combine(X, Y);
+
+        public override bool Equals(object? obj)
+            => obj is Position position && Equals(position);
+
+        public bool Equals(Position other)
+            => X == other.X && Y == other.Y;
+
+        public static bool operator ==(in Position left, in Position right)
+            => left.Equals(right);
+
+        public static bool operator !=(in Position left, in Position right)
+            => !left.Equals(right);
+
         public static Position operator +(in Position left, in Position right)
             => new Position(left.X + right.X, left.Y + right.Y);
+
+        public static Position operator -(in Position left, in Position right)
+            => new Position(left.X - right.X, left.Y - right.Y);
     }
 }
