@@ -10,11 +10,7 @@
 	</Blocks>
 	<Entities>
 		<Player relativeTo='start' x='1.5' y='1'/>
-		<Coin relativeTo='main' x='6' y='3'>
-			<IA>
-				<Collecting/>
-			</IA>
-		</Coin>
+		<Coin relativeTo='main' x='6' y='3'/>
 		<Ball relativeTo='main' x='0.5' y='0.5'>
 			<IA>
 				<BouncingX from='0.5' to='5.5' duration='2'/>

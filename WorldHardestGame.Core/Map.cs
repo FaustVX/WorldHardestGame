@@ -197,10 +197,10 @@ namespace WorldHardestGame.Core
                                 ReadNode(reader, p => new Player(p, new Rectangle(new Position(-.25f, -.25f), new Position(.25f, .25f)), this));
                                 break;
                             case nameof(Ball):
-                                ReadNode(reader, p => new Ball(p, null!, new Rectangle(new Position(-.25f, -.25f), new Position(.25f, .25f)), this));
+                                ReadNode(reader, p => new Ball(p, null, new Rectangle(new Position(-.25f, -.25f), new Position(.25f, .25f)), this));
                                 break;
                             case nameof(Coin):
-                                ReadNode(reader, p => new Coin(p, null!, new Rectangle(new Position(-.25f, -.25f), new Position(.25f, .25f)), this));
+                                ReadNode(reader, p => new Coin(p, null, new Rectangle(new Position(-.25f, -.25f), new Position(.25f, .25f)), this));
                                 break;
                         }
 
@@ -244,11 +244,6 @@ namespace WorldHardestGame.Core
                                             if (relativeTo is { })
                                                 (start, end) = (start + blocks[relativeTo].x, end + blocks[relativeTo].x);
                                             entity.ModifyReadOnlyProperty(e => e.IA, new BouncingY(start, end, duration, entity));
-                                            break;
-                                        }
-                                    case nameof(Collecting):
-                                        {
-                                            entity.ModifyReadOnlyProperty(e => e.IA, new Collecting(entity));
                                             break;
                                         }
                                     case nameof(IA.Path) when element.GetFloatAttribute("duration", out var duration)

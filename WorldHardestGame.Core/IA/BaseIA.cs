@@ -16,10 +16,5 @@ namespace WorldHardestGame.Core.IA
             => UpdateImpl(deltaTime);
 
         protected abstract void UpdateImpl(TimeSpan deltaTime);
-
-        public void ContactWith(Player player)
-            => ContactWithImpl(player);
-
-        protected abstract void ContactWithImpl(Player player);
     }
 }

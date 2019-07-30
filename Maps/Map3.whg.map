@@ -10,11 +10,7 @@
 	</Blocks>
 	<Entities>
 		<Player relativeTo='finish' x='1' y='1'/>
-		<Coin relativeTo='coin' x='0.5' y='0.5'>
-			<IA>
-				<Collecting/>
-			</IA>
-		</Coin>
+		<Coin relativeTo='coin' x='0.5' y='0.5'/>
         <Ball relativeTo='main' x='0.5' y='1.5'>
             <IA>
                 <Path duration='5' distance='12'>

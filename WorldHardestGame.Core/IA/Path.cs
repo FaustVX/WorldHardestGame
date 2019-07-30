@@ -31,9 +31,6 @@ namespace WorldHardestGame.Core.IA
         public List<Position> Positions { get; }
         public List<(Position start, Position end, float timeStart, float timeEnd)> Sections { get; }
 
-        protected override void ContactWithImpl(Player player)
-        { }
-
         protected override void UpdateImpl(float timePos)
         {
             timePos %= 1f;

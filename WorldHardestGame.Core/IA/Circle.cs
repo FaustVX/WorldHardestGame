@@ -15,9 +15,6 @@ namespace WorldHardestGame.Core.IA
         public Position Center { get; }
         public Position StartPosition { get; }
 
-        protected override void ContactWithImpl(Player player)
-            => throw new NotImplementedException();
-
         protected override void UpdateImpl(float timePos)
         {
             Entity.Position = RotatePoint(timePos * 2 * MathF.PI - (MathF.PI / 2), StartPosition);
