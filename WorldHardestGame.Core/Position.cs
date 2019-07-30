@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
@@ -28,6 +29,12 @@ namespace WorldHardestGame.Core
             bool GetFloatAttribute(string name, out float value)
                 => reader.GetFloatAttribute(name, out value);
         }
+
+        public float DistanceWith(Position position)
+            => MathF.Sqrt(DistanceWithSquared(position));
+
+        public float DistanceWithSquared(Position position)
+            => (position.X - X) * (position.X - X) + (position.Y - Y) * (position.Y - Y);
 
         public static Position operator +(in Position left, in Position right)
             => new Position(left.X + right.X, left.Y + right.Y);

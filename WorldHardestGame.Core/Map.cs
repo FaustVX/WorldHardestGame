@@ -259,6 +259,18 @@ namespace WorldHardestGame.Core
                                             entity.ModifyReadOnlyProperty(e => e.IA, new Collecting(entity));
                                             break;
                                         }
+                                    case nameof(IA.Path) when element.GetFloatAttribute("duration", out var duration)
+                                    && element.GetFloatAttribute("distance", out var distance):
+                                        {
+                                            var pos =
+                                                from e in element.ChildNodes.Cast<XmlElement>()
+                                                let x = (e.GetFloatAttribute("x", out var x), val: relativeTo is { } ? x + blocks[relativeTo].x : x)
+                                                let y = (e.GetFloatAttribute("y", out var y), val: relativeTo is { } ? y + blocks[relativeTo].y : y)
+                                                where x.Item1 && y.Item1
+                                                select new Position(x.val, y.val);
+                                            entity.ModifyReadOnlyProperty(e => e.IA, new IA.Path(entity, duration, distance, pos));
+                                            break;
+                                        }
                                     default:
                                         throw new Exception();
                                 }

@@ -1,0 +1,126 @@
+<Map>
+	<Header>
+		<Name>Map 3</Name>
+		<Size width='6' height='7'/>
+	</Header>
+	<Blocks>
+		<Floor id='coin' x='1' y='1'/>
+		<Floor id='main' relativeTo='prev' x='0' y='1' size='4'/>
+		<Finish id='finish' relativeTo='main' x='1' y='1' size='2'/>
+	</Blocks>
+	<Entities>
+		<Player relativeTo='finish' x='1' y='1'/>
+		<Coin relativeTo='coin' x='0.5' y='0.5'>
+			<IA>
+				<Collecting/>
+			</IA>
+		</Coin>
+        <Ball relativeTo='main' x='0.5' y='1.5'>
+            <IA>
+                <Path duration='5' distance='12'>
+                    <Point x='0.5' y='0.5'/>
+                    <Point x='3.5' y='0.5'/>
+                    <Point x='3.5' y='3.5'/>
+                    <Point x='0.5' y='3.5'/>
+                </Path>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='0.5' y='2.5'>
+            <IA>
+                <Path duration='5' distance='12'>
+                    <Point x='0.5' y='0.5'/>
+                    <Point x='3.5' y='0.5'/>
+                    <Point x='3.5' y='3.5'/>
+                    <Point x='0.5' y='3.5'/>
+                </Path>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='0.5' y='3.5'>
+            <IA>
+                <Path duration='5' distance='12'>
+                    <Point x='0.5' y='0.5'/>
+                    <Point x='3.5' y='0.5'/>
+                    <Point x='3.5' y='3.5'/>
+                </Path>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='1.5' y='3.5'>
+            <IA>
+                <Path duration='5' distance='12'>
+                    <Point x='0.5' y='3.5'/>
+                    <Point x='0.5' y='0.5'/>
+                    <Point x='3.5' y='0.5'/>
+                    <Point x='3.5' y='3.5'/>
+                </Path>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='2.5' y='3.5'>
+            <IA>
+                <Path duration='5' distance='12'>
+                    <Point x='0.5' y='3.5'/>
+                    <Point x='0.5' y='0.5'/>
+                    <Point x='3.5' y='0.5'/>
+                    <Point x='3.5' y='3.5'/>
+                </Path>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='3.5' y='3.5'>
+            <IA>
+                <Path duration='5' distance='12'>
+                    <Point x='0.5' y='3.5'/>
+                    <Point x='0.5' y='0.5'/>
+                    <Point x='3.5' y='0.5'/>
+                </Path>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='3.5' y='2.5'>
+            <IA>
+                <Path duration='5' distance='12'>
+                    <Point x='3.5' y='3.5'/>
+                    <Point x='0.5' y='3.5'/>
+                    <Point x='0.5' y='0.5'/>
+                    <Point x='3.5' y='0.5'/>
+                </Path>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='3.5' y='1.5'>
+            <IA>
+                <Path duration='5' distance='12'>
+                    <Point x='3.5' y='3.5'/>
+                    <Point x='0.5' y='3.5'/>
+                    <Point x='0.5' y='0.5'/>
+                    <Point x='3.5' y='0.5'/>
+                </Path>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='3.5' y='0.5'>
+            <IA>
+                <Path duration='5' distance='12'>
+                    <Point x='3.5' y='3.5'/>
+                    <Point x='0.5' y='3.5'/>
+                    <Point x='0.5' y='0.5'/>
+                </Path>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='2.5' y='0.5'>
+            <IA>
+                <Path duration='5' distance='12'>
+                    <Point x='3.5' y='0.5'/>
+                    <Point x='3.5' y='3.5'/>
+                    <Point x='0.5' y='3.5'/>
+                    <Point x='0.5' y='0.5'/>
+                </Path>
+            </IA>
+        </Ball>
+        <Ball relativeTo='main' x='1.5' y='0.5'>
+            <IA>
+                <Path duration='5' distance='12'>
+                    <Point x='3.5' y='0.5'/>
+                    <Point x='3.5' y='3.5'/>
+                    <Point x='0.5' y='3.5'/>
+                    <Point x='0.5' y='0.5'/>
+                </Path>
+            </IA>
+        </Ball>
+	</Entities>
+</Map>
