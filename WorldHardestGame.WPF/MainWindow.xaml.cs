@@ -129,6 +129,7 @@ namespace WorldHardestGame.WPF
                         {
                             BlockType.Floor => ((x + y) % 2 == 0) ? Colors.DimGray : Colors.Gray,
                             BlockType.Start => Colors.PaleGreen,
+                            BlockType.Checkpoint => Colors.Aquamarine,
                             BlockType.Finish => Map.FinishedUnlocked ? Colors.PaleTurquoise : Colors.IndianRed,
                             _ => Colors.Wheat,
                         })
@@ -185,6 +186,7 @@ namespace WorldHardestGame.WPF
                 TxtInfo.Text = $@"BlockSize: {_blockSize:0.###}" + nl +
                     $@"FPS: {FPS:0.###}" + nl +
                     $@"Player Speed: {_playerSpeed:0.###} Blocks/sec" + nl +
+                    $@"Player Respawn: {Player.RespawnPosition.X:0.###}  {Player.RespawnPosition.Y:0.###}" + nl +
                     $@"Map Locked: {!Map.FinishedUnlocked}" +
                     Map.NonKilledEntities.Aggregate("", (t, entity) => t + nl + $@"{entity.GetType().Name} Position: {entity.Position.X:0.###}  {entity.Position.Y:0.###}");
 

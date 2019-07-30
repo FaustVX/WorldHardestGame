@@ -9,7 +9,7 @@ namespace WorldHardestGame.Core.Entities
         public Player(Position position, Rectangle boundingBox, Map map)
             : base(position, boundingBox, map)
         {
-
+            RespawnPosition = Position;
         }
 
         public override Position Position
@@ -31,6 +31,8 @@ namespace WorldHardestGame.Core.Entities
             }
         }
 
+        public Position RespawnPosition { get; set; }
+
         public override bool IsEnnemy
             => false;
 
@@ -48,11 +50,18 @@ namespace WorldHardestGame.Core.Entities
                 var other = Get4Corners(GetCorners(entity));
                 if (!(other.left > me.right || other.right < me.left || other.top > me.bottom || other.bottom < me.top))
                     if (HasContactBetween(this, entity) && !entity.IsKilled && entity.IsEnnemy)
-                        HasBennKilledBy = entity;
+                        Position = RespawnPosition;
             }
 
-            if (Map.FinishedUnlocked && Map[Position] is BlockType.Finish)
-                Map.Finished = true;
+            switch (Map[Position])
+            {
+                case BlockType.Finish when Map.FinishedUnlocked:
+                    Map.Finished = true;
+                    break;
+                case BlockType.Checkpoint:
+                    RespawnPosition = new Position(.5f + (int)Position.X, .5f + (int)Position.Y);
+                    break;
+            }
 
             static (Position tl, Position br) GetCorners(BaseEntity entity)
                 => (entity.Position + entity.BoundingBox.TopLeft, entity.Position + entity.BoundingBox.BottomRight);

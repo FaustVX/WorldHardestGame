@@ -5,6 +5,7 @@
         Wall,
         Start,
         Floor,
+        Checkpoint,
         Finish
     }
 }

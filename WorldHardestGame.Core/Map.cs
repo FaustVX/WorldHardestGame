@@ -129,21 +129,7 @@ namespace WorldHardestGame.Core
                         else if (prev)
                             relativeTo = null;
 
-                        switch (reader.Name)
-                        {
-                            case nameof(BlockType.Start):
-                                SetBlocks(BlockType.Start, x, y);
-                                break;
-                            case nameof(BlockType.Finish):
-                                SetBlocks(BlockType.Finish, x, y);
-                                break;
-                            case nameof(BlockType.Floor):
-                                SetBlocks(BlockType.Floor, x, y);
-                                break;
-                            case nameof(BlockType.Wall):
-                                SetBlocks(BlockType.Wall, x, y);
-                                break;
-                        }
+                        SetBlocks((BlockType)Enum.Parse(typeof(BlockType), reader.Name), x, y);
 
                         void SetBlocks(BlockType block, int x, int y)
                         {
